@@ -6,7 +6,7 @@
               
               <div class="col-md-4">
                   <div class="card product-item">
-                    <img src="/img/products/product1.jpg" class="card-img-top" alt="...">
+                    <img src="/img/products/3.jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Surface Book 2</h5>
                             <p class="card-text">
@@ -19,7 +19,7 @@
 
               <div class="col-md-4">
                   <div class="card product-item">
-                    <img src="/img/products/product2.jpg" class="card-img-top" alt="...">
+                    <img src="/img/products/2.jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Surface Laptop 2</h5>
                             <p class="card-text">
@@ -32,7 +32,7 @@
 
               <div class="col-md-4">
                   <div class="card product-item">
-                    <img src="/img/products/product3.jpg" class="card-img-top" alt="...">
+                    <img src="/img/products/3.jpg" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Surface Studio 2</h5>
                             <p class="card-text">

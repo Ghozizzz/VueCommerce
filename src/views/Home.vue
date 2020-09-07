@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <Navbar></Navbar>
     <Hero></Hero>
     <Product></Product>
     <div class="container h-100">
@@ -16,6 +17,7 @@
         </div>
       </div>
     </div>
+    <Login></Login>
   </div>
 </template>
 
@@ -23,11 +25,12 @@
 // @ is an alias to /src
 import Hero from "@/components/Hero.vue";
 import Product from "@/sections/Product.vue";
+import Login from "@/components/Login.vue";
 
 export default {
   name: "Home",
   components: {
-    Hero, Product
+    Hero, Product, Login
   }
 };
 </script>

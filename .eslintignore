@@ -1,1 +1,7 @@
 *.js text eol=lf
+/build/
+/config/
+/dist/
+/*.js
+/test/unit/coverage/
+*

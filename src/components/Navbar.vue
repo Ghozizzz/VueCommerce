@@ -29,7 +29,6 @@
             </a>
           </form>
         </div>
-
      </div>
 
 </nav>
@@ -43,7 +42,8 @@ export default {
   props: {
     msg: String
   },
-  components:{}
+  components:{
+  }
 };
 </script>
 

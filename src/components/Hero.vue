@@ -11,7 +11,7 @@
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos numquam tempora, iure delectus totam minus quam aperiam ratione dolores magni voluptates ut necessitatibus odio ipsum fuga, voluptas ab praesentium nihil?
                 </p>
                 <div class="hero-btn mt-5">
-                  <button class="btn custom-btn btn-info mr-4">Explore</button>
+                  <button class="btn custom-btn btn-info mr-4 px-2">Explore</button>
                   <button class="btn custom-btn btn-outline-secondary">Products</button>
                 </div>
               </div>
