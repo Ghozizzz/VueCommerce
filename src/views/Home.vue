@@ -2,7 +2,7 @@
   <div class="home">
     <Navbar></Navbar>
     <Hero></Hero>
-    <Product></Product>
+    <ProductList></ProductList>
     <div class="container h-100">
       <div class="row p-5 h-100 justify-content-center align-items-center">
         <div class="col-md-6">

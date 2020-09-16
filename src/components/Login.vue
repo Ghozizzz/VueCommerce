@@ -1,37 +1,168 @@
 <template>
   <div class="login">
-    <!-- The Modal -->
-    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+        <!-- Modal -->
+        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-            <h4 class="modal-title">Modal Heading</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
+                <div class="modal-body">
 
-        <!-- Modal body -->
-        <div class="modal-body">
-            Modal body..
-        </div>
 
-        <!-- Modal footer -->
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
+                        <ul class="nav nav-fill nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-login" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-register-tab" data-toggle="pill" href="#pills-register" role="tab" aria-controls="pills-register" aria-selected="false">Signup</a>
+                            </li>
+                        </ul>
 
+                        <div class="tab-content" id="pills-tabContent">
+
+                          <div class="tab-pane fade show" id="pills-reset" role="tabpanel" aria-labelledby="pills-reset-tab">
+                              <h5 class="text-center">Reset Password</h5>
+                              <div class="form-group">
+                                  <label for="exampleInputEmail1">Email address</label>
+                                  <input type="email" v-model="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                  <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                              </div>
+                              <div class="form-group">
+                                <input type="button" @click="resetPassword" value="Reset password email" class="btn btn-success w-100">
+                              </div>
+                          </div>
+
+                          <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
+                              <h5 class="text-center">Login Please</h5>
+                              <div class="form-group">
+                                  <label for="exampleInputEmail1">Email address</label>
+                                  <input type="email" v-model="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                  <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                              </div>
+                              <div class="form-group">
+                                  <label for="exampleInputPassword1">Password</label>
+                                  <input type="password" @keyup.enter="login" v-model="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                              </div>
+
+                              <div class="form-group">
+                                  <button class="btn btn-primary" id="btn-login" @click="login">Login</button> &nbsp;
+                                  <a class="btn btn-warning" id="pills-reset-tab" data-toggle="pill" href="#pills-reset" role="tab" aria-controls="pills-reset" aria-selected="false">Reset Password</a>
+                              </div>
+                          </div>
+
+                          <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+                              
+                              <h5 class="text-center">Create New Account</h5>
+                              
+                              <div class="form-group">
+                                  <label for="name">Your name</label>
+                                  <input type="text" v-model="name" class="form-control" id="name" placeholder="Your nice name">
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="email">Email address</label>
+                                  <input type="email"  v-model="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                              </div>
+                              <div class="form-group">
+                                  <label for="password">Password</label>
+                                  <input type="password" v-model="password" class="form-control" id="password" placeholder="Password">
+                              </div>
+
+                              <div class="form-group">
+                                  <button class="btn btn-primary" id="btn-register" @click="register">Signup</button>
+                              </div>
+
+                          </div>
+                        </div>
+                    
+ 
+                </div>
+           
+            </div>
         </div>
-      </div>
-    </div>
+        </div>
+    
   </div>
 </template>
 
 <script>
+import {fb,db} from '../firebase';
+
 export default {
   name: "Login",
   props: {
     msg: String
+  },
+  data(){
+    return {
+      name: null,
+      email: null,
+      password: null
+    }
+  },
+  methods:{
+    resetPassword(){
+      const auth = fb.auth();
+      auth.sendPasswordResetEmail(this.email).then(() => {
+        Toast.fire({
+          icon: 'success',
+          title: 'Email sent successfully'
+        });
+        setTimeout(() => this.$router.go(this.$router.currentRoute), 500);
+        // Email sent.
+      }).catch((error) => {
+        alert(error);
+        // An error happened.
+      });
+    },
+    register(){
+      $('#btn-register').text('Please Wait...').prop('disabled', true);
+      fb.auth().createUserWithEmailAndPassword(this.email, this.password)
+      .then((user)=>{
+        $('#login').modal('hide');
+        db.collection("users").doc(user.user.uid).set({
+            name: this.name,
+        })
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            alert("Error writing document: ", error);
+        });
+        this.$router.replace('admin');
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode == 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          alert(errorMessage);
+        }
+        $('#btn-register').text('Signup').prop('disabled', false);
+        console.log(error);
+      });
+    },
+    login(){
+      $('#btn-login').text('Please Wait...').prop('disabled', true);
+      fb.auth().signInWithEmailAndPassword(this.email, this.password)
+      .then(() => {
+        $('#login').modal('hide');
+        this.$router.replace('admin');
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode === 'auth/wrong-password') {
+          alert('Wrong password.');
+        } else {
+          alert(errorMessage);
+        }
+        $('#btn-login').text('Login').prop('disabled', false);
+        console.log(error);
+      });
+    }
   }
 };
 </script>

@@ -50,8 +50,14 @@
 </template>
 
 <script>
+import { Carousel, Slide } from 'vue-carousel';
+
 export default {
   name: "Products",
+  components: {
+    Carousel,
+    Slide
+  },
   props: {
     msg: String
   }
